@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Perpisahan</title>
+<style>
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f8f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* --- Running Text --- */
+.marquee-container {
+  width: 100%;
+  background: #0b8457;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 8px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1100;
+}
+
+.marquee {
+  display: inline-block;
+  color: #fff;
+  font-weight: 600;
+  padding-left: 100%;
+  animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* --- Form Container --- */
+.form-container {
+  background: #fff;
+  padding: 28px 36px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 420px;
+  display: none;
+  margin-top: 50px; /* agar tidak tertutup running text */
+}
+
+h2 { text-align: center; color: #0b8457; margin-bottom: 24px; }
+
+label { display: block; margin-bottom: 6px; font-weight: 500; }
+input, button {
+  width: 100%; padding: 10px; margin-bottom: 16px;
+  border: 1px solid #ccc; border-radius: 6px; font-size: 15px;
+}
+input[readonly] { background: #f9f9f9; cursor: pointer; }
+button { background: #0b8457; color: #fff; border: none; cursor: pointer; transition: 0.25s; }
+button:hover { background: #099a61; }
+.success { text-align: center; color: #0b8457; font-weight: 600; display: none; }
+
+/* --- Modal --- */
+.modal {
+  display: none; position: fixed; z-index: 1000; left:0; top:0;
+  width:100%; height:100%; background: rgba(0,0,0,0.4);
+  justify-content: center; align-items: center; animation: fadeIn 0.3s;
+}
+
+.modal-content {
+  background: #fff; padding:20px 28px; border-radius:12px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  text-align:center; width:90%; max-width:340px; animation: popIn 0.3s ease-out;
+}
+
+.option-btn { display:block; background:#0b8457; color:#fff; border:none;
+  width:100%; padding:10px; margin:8px 0; border-radius:6px; font-size:15px; cursor:pointer; transition:0.25s; }
+.option-btn:hover { background:#099a61; }
+.cancel-btn { background:#b22e2e; }
+.cancel-btn:hover { background:#d63c3c; }
+
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+@keyframes popIn { from {transform:scale(0.8);opacity:0;} to {transform:scale(1);opacity:1;} }
+
+/* --- Loading Spinner --- */
+.loading-content {
+  display: flex; flex-direction: column; align-items: center; padding: 30px;
+}
+
+.spinner-gradient {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: conic-gradient(#0b8457, #09a661, #0b8457);
+  animation: spin-gradient 1s linear infinite; margin-bottom: 15px;
+}
+
+@keyframes spin-gradient { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+</style>
+</head>
+<body>
+
+<!-- Running Text -->
+<div class="marquee-container">
+  <p class="marquee">⚠️ Hallo Sobat Angkatan 26, Kami dari Panitian Perpisahan Mengharapkan waktu Kepada kalian Untuk Mengisi Form berikut. Harap mengisi data dengan benar. Data hanya bisa dikirim satu kali! ⚠️</p>
+</div>
+
+<!-- Form Container -->
+<div class="form-container" id="formContainer">
+  <h2>Pendataan Perpisahan Angkatan '26</h2>
+  <form id="dataForm">
+    <label for="nama">Nama Lengkap:</label>
+    <input type="text" id="nama" name="nama" required>
+
+    <label for="kelas">Kelas:</label>
+    <input type="text" id="kelas" name="kelas" readonly placeholder="Klik untuk memilih kelas" required>
+
+    <label for="status">Status:</label>
+    <input type="text" id="status" name="status" readonly placeholder="Klik untuk memilih status" required>
+
+    <button type="submit">Kirim</button>
+  </form>
+  <p class="success" id="successMsg">✅ Data berhasil dikirim!</p>
+</div>
+
+<!-- Modal Pilih Kelas -->
+<div class="modal" id="kelasModal">
+  <div class="modal-content">
+    <h3>Pilih Kelas</h3>
+    <button class="option-btn" data-value="XII-A">XII-A</button>
+    <button class="option-btn" data-value="XII-B">XII-B</button>
+    <button class="option-btn" data-value="XII-C">XII-C</button>
+    <button class="option-btn" data-value="XII-D">XII-D</button>
+    <button class="option-btn" data-value="XII-E">XII-E</button>
+    <button class="option-btn" data-value="XII-F">XII-F</button>
+    <button class="option-btn" data-value="XII-G">XII-G</button>
+  </div>
+</div>
+
+<!-- Modal Pilih Status -->
+<div class="modal" id="statusModal">
+  <div class="modal-content">
+    <h3>Pilih Status</h3>
+    <button class="option-btn" data-value="Mengikuti">Mengikuti</button>
+    <button class="option-btn" data-value="Tidak Mengikuti">Tidak Mengikuti</button>
+  </div>
+</div>
+
+<!-- Modal Konfirmasi Kirim -->
+<div class="modal" id="confirmModal">
+  <div class="modal-content">
+    <h3>⚠️ Konfirmasi Pengiriman</h3>
+    <p>Anda yakin ingin mengirim data ini?<br><strong>Data ini hanya bisa dikirim satu kali!</strong></p>
+    <button class="option-btn" id="confirmSend">Ya, Kirim</button>
+    <button class="option-btn cancel-btn" id="cancelSend">Batal</button>
+  </div>
+</div>
+
+<!-- Modal Sudah Mengirim -->
+<div class="modal" id="alreadyModal">
+  <div class="modal-content">
+    <h3>⚠️ Anda sudah mengumpulkan data!</h3>
+    <p>Jika ingin mengisi ulang, Silahkan Hubungi Admin terlebih dahulu.</p>
+  </div>
+</div>
+
+<!-- Modal Loading Spinner -->
+<div class="modal" id="loadingModal">
+  <div class="modal-content loading-content">
+    <div class="spinner-gradient"></div>
+    <p>Memproses data...</p>
+  </div>
+</div>
+
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbwmLX74O11SiNJ71t54nOdf1NvKps8oCXDTX0kFIIU7fQbBRwhWdMXtFfvr49a6AUQydg/exec"; // Ganti dengan Web App URL
+
+const formContainer = document.getElementById("formContainer");
+const form = document.getElementById("dataForm");
+const successMsg = document.getElementById("successMsg");
+const kelasInput = document.getElementById("kelas");
+const statusInput = document.getElementById("status");
+
+const kelasModal = document.getElementById("kelasModal");
+const statusModal = document.getElementById("statusModal");
+const confirmModal = document.getElementById("confirmModal");
+const alreadyModal = document.getElementById("alreadyModal");
+const loadingModal = document.getElementById("loadingModal");
+
+const confirmSend = document.getElementById("confirmSend");
+const cancelSend = document.getElementById("cancelSend");
+
+let isSubmitting = false;
+
+// --- Cek akses user dengan loading ---
+function cekAksesUser() {
+  const sudahKirim = localStorage.getItem("sudahKirimPendataan");
+  const namaUser = localStorage.getItem("namaUser") || "";
+
+  if (sudahKirim === "true" && namaUser) {
+    loadingModal.style.display = "flex"; // Tampilkan loading saat cek Sheet
+    fetch(`${SHEET_URL}?checkName=${encodeURIComponent(namaUser)}`)
+      .then(res => res.json())
+      .then(data => {
+        loadingModal.style.display = "none";
+        if (data.exists) {
+          alreadyModal.style.display = "flex";
+        } else {
+          localStorage.removeItem("sudahKirimPendataan");
+          localStorage.removeItem("namaUser");
+          formContainer.style.display = "block";
+        }
+      })
+      .catch(() => {
+        loadingModal.style.display = "none";
+        alert("Terjadi kesalahan saat memeriksa data. Silakan refresh halaman.");
+      });
+  } else {
+    formContainer.style.display = "block";
+  }
+}
+
+cekAksesUser();
+
+// --- Popup Kelas ---
+kelasInput.addEventListener("click", () => kelasModal.style.display = "flex");
+kelasModal.querySelectorAll(".option-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    kelasInput.value = btn.dataset.value;
+    kelasModal.style.display = "none";
+  });
+});
+
+// --- Popup Status ---
+statusInput.addEventListener("click", () => statusModal.style.display = "flex");
+statusModal.querySelectorAll(".option-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    statusInput.value = btn.dataset.value;
+    statusModal.style.display = "none";
+  });
+});
+
+// --- Tutup modal jika klik luar ---
+window.onclick = e => {
+  [kelasModal, statusModal, confirmModal, loadingModal].forEach(modal => {
+    if(e.target === modal) modal.style.display = "none";
+  });
+};
+
+// --- Submit Form ---
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  if(isSubmitting) return;
+  confirmModal.style.display = "flex";
+});
+
+confirmSend.addEventListener("click", () => {
+  confirmModal.style.display = "none";
+  isSubmitting = true;
+
+  loadingModal.style.display = "flex";
+  const namaUser = document.getElementById("nama").value.trim();
+
+  fetch(SHEET_URL, { method: "POST", body: new FormData(form) })
+    .then(() => {
+      localStorage.setItem("sudahKirimPendataan", "true");
+      localStorage.setItem("namaUser", namaUser);
+
+      formContainer.style.display = "none";
+      successMsg.style.display = "block";
+
+      setTimeout(() => {
+        loadingModal.style.display = "none";
+        successMsg.style.display = "none";
+        alreadyModal.style.display = "flex";
+      }, 2000);
+    })
+    .catch(() => {
+      loadingModal.style.display = "none";
+      alert("Terjadi kesalahan. Silakan coba lagi.");
+    });
+});
+
+cancelSend.addEventListener("click", () => confirmModal.style.display = "none");
+</script>
+
+</body>
+</html>             
