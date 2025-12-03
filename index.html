@@ -2,290 +2,341 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Perpisahan</title>
+<title>Pendataan Promnight</title>
+
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- SWEETALERT 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- LOTTIE -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<!-- CONFETTI -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <style>
 body {
-  font-family: "Segoe UI", sans-serif;
-  background: #f5f8f7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e1f26, #3f3351, #864879);
+    background-size: 400% 400%;
+    animation: gradientMove 12s ease infinite;
+    padding: 40px;
+    color: #fff;
 }
 
-/* --- Running Text --- */
-.marquee-container {
-  width: 100%;
-  background: #0b8457;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 8px 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1100;
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-.marquee {
-  display: inline-block;
-  color: #fff;
-  font-weight: 600;
-  padding-left: 100%;
-  animation: marquee 15s linear infinite;
+.container {
+    max-width: 400px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    padding: 25px;
+    border-radius: 15px;
+    animation: fadeIn .8s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-@keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-100%); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Form Container --- */
-.form-container {
-  background: #fff;
-  padding: 28px 36px;
-  border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 420px;
-  display: none;
-  margin-top: 50px; /* agar tidak tertutup running text */
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 8px;
+    outline: none;
+    font-size: 15px;
+    background: rgba(255,255,255,0.85);
 }
 
-h2 { text-align: center; color: #0b8457; margin-bottom: 24px; }
-
-label { display: block; margin-bottom: 6px; font-weight: 500; }
-input, button {
-  width: 100%; padding: 10px; margin-bottom: 16px;
-  border: 1px solid #ccc; border-radius: 6px; font-size: 15px;
-}
-input[readonly] { background: #f9f9f9; cursor: pointer; }
-button { background: #0b8457; color: #fff; border: none; cursor: pointer; transition: 0.25s; }
-button:hover { background: #099a61; }
-.success { text-align: center; color: #0b8457; font-weight: 600; display: none; }
-
-/* --- Modal --- */
-.modal {
-  display: none; position: fixed; z-index: 1000; left:0; top:0;
-  width:100%; height:100%; background: rgba(0,0,0,0.4);
-  justify-content: center; align-items: center; animation: fadeIn 0.3s;
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+    transition: .3s ease;
+    background: #ff8fa3;
 }
 
-.modal-content {
-  background: #fff; padding:20px 28px; border-radius:12px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.2);
-  text-align:center; width:90%; max-width:340px; animation: popIn 0.3s ease-out;
+button:hover {
+    background: #ff6f91;
+    transform: translateY(-2px);
 }
 
-.option-btn { display:block; background:#0b8457; color:#fff; border:none;
-  width:100%; padding:10px; margin:8px 0; border-radius:6px; font-size:15px; cursor:pointer; transition:0.25s; }
-.option-btn:hover { background:#099a61; }
-.cancel-btn { background:#b22e2e; }
-.cancel-btn:hover { background:#d63c3c; }
+#step3 button:first-child { background: #7fd18b; }
+#step3 button:last-child { background: #d46a6a; }
 
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-@keyframes popIn { from {transform:scale(0.8);opacity:0;} to {transform:scale(1);opacity:1;} }
+.hidden { display: none; }
 
-/* --- Loading Spinner --- */
-.loading-content {
-  display: flex; flex-direction: column; align-items: center; padding: 30px;
+#loading {
+    text-align:center; 
+    margin-top:20px;
 }
-
-.spinner-gradient {
-  width: 60px; height: 60px; border-radius: 50%;
-  background: conic-gradient(#0b8457, #09a661, #0b8457);
-  animation: spin-gradient 1s linear infinite; margin-bottom: 15px;
-}
-
-@keyframes spin-gradient { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
 </style>
 </head>
 <body>
 
-<!-- Running Text -->
-<div class="marquee-container">
-  <p class="marquee">⚠️ Hallo Sobat Angkatan 26, Kami dari Panitian Perpisahan Mengharapkan waktu Kepada kalian Untuk Mengisi Form berikut. Harap mengisi data dengan benar. Data hanya bisa dikirim satu kali! ⚠️</p>
-</div>
+<div class="container">
+    <h2 style="text-align:center;">Pendataan Promnight</h2>
 
-<!-- Form Container -->
-<div class="form-container" id="formContainer">
-  <h2>Pendataan Perpisahan Angkatan '26</h2>
-  <form id="dataForm">
-    <label for="nama">Nama Lengkap:</label>
-    <input type="text" id="nama" name="nama" required>
+    <!-- STEP 1 -->
+    <div id="step1">
+        <label>Masukkan NIS:</label>
+        <input type="text" id="nis" placeholder="Masukan NIS">
+        <button onclick="checkNIS()">Cek NIS</button>
+    </div>
 
-    <label for="kelas">Kelas:</label>
-    <input type="text" id="kelas" name="kelas" readonly placeholder="Klik untuk memilih kelas" required>
+    <!-- STEP 2 -->
+    <div id="step2" class="hidden">
+        <h3>Data Ditemukan</h3>
+        <p><strong>Nama:</strong> <span id="nama"></span></p>
+        <p><strong>Kelas:</strong> <span id="kelas"></span></p>
+        <button onclick="gotoStep3()">Lanjutkan</button>
+    </div>
 
-    <label for="status">Status:</label>
-    <input type="text" id="status" name="status" readonly placeholder="Klik untuk memilih status" required>
+    <!-- STEP 3 -->
+    <div id="step3" class="hidden">
+        <h3>Konfirmasi Kehadiran</h3>
+        <button onclick="submitData('Mengikuti')">Saya Mengikuti</button>
+        <button onclick="submitData('Tidak Mengikuti')">Tidak Mengikuti</button>
+    </div>
 
-    <button type="submit">Kirim</button>
-  </form>
-  <p class="success" id="successMsg">✅ Data berhasil dikirim!</p>
-</div>
+    <div id="done" class="hidden">
+        <h3>Terima Kasih!</h3>
+        <p>Data Anda berhasil dikirim 🎉</p>
+    </div>
 
-<!-- Modal Pilih Kelas -->
-<div class="modal" id="kelasModal">
-  <div class="modal-content">
-    <h3>Pilih Kelas</h3>
-    <button class="option-btn" data-value="XII-A">XII-A</button>
-    <button class="option-btn" data-value="XII-B">XII-B</button>
-    <button class="option-btn" data-value="XII-C">XII-C</button>
-    <button class="option-btn" data-value="XII-D">XII-D</button>
-    <button class="option-btn" data-value="XII-E">XII-E</button>
-    <button class="option-btn" data-value="XII-F">XII-F</button>
-    <button class="option-btn" data-value="XII-G">XII-G</button>
-  </div>
-</div>
-
-<!-- Modal Pilih Status -->
-<div class="modal" id="statusModal">
-  <div class="modal-content">
-    <h3>Pilih Status</h3>
-    <button class="option-btn" data-value="Mengikuti">Mengikuti</button>
-    <button class="option-btn" data-value="Tidak Mengikuti">Tidak Mengikuti</button>
-  </div>
-</div>
-
-<!-- Modal Konfirmasi Kirim -->
-<div class="modal" id="confirmModal">
-  <div class="modal-content">
-    <h3>⚠️ Konfirmasi Pengiriman</h3>
-    <p>Anda yakin ingin mengirim data ini?<br><strong>Data ini hanya bisa dikirim satu kali!</strong></p>
-    <button class="option-btn" id="confirmSend">Ya, Kirim</button>
-    <button class="option-btn cancel-btn" id="cancelSend">Batal</button>
-  </div>
-</div>
-
-<!-- Modal Sudah Mengirim -->
-<div class="modal" id="alreadyModal">
-  <div class="modal-content">
-    <h3>⚠️ Anda sudah mengumpulkan data!</h3>
-    <p>Jika ingin mengisi ulang, Silahkan Hubungi Admin terlebih dahulu.</p>
-  </div>
-</div>
-
-<!-- Modal Loading Spinner -->
-<div class="modal" id="loadingModal">
-  <div class="modal-content loading-content">
-    <div class="spinner-gradient"></div>
-    <p>Memproses data...</p>
-  </div>
+    <!-- LOADING -->
+    <div id="loading" class="hidden">
+        <lottie-player 
+            src="https://assets10.lottiefiles.com/packages/lf20_usmfx6bp.json"
+            background="transparent"
+            speed="1"
+            style="width:100px; height:100px; margin:auto;"
+            loop
+            autoplay>
+        </lottie-player>
+        <p>Memproses...</p>
+    </div>
 </div>
 
 <script>
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbwmLX74O11SiNJ71t54nOdf1NvKps8oCXDTX0kFIIU7fQbBRwhWdMXtFfvr49a6AUQydg/exec"; // Ganti dengan Web App URL
+const scriptURL = "https://script.google.com/macros/s/AKfycbzIYOzT9zwcDsvpkH5z6VgUKXDrFrP3Cqf2XHXYN98JAJ_buIUPYBYH-QYeDrR-quCWFw/exec";
 
-const formContainer = document.getElementById("formContainer");
-const form = document.getElementById("dataForm");
-const successMsg = document.getElementById("successMsg");
-const kelasInput = document.getElementById("kelas");
-const statusInput = document.getElementById("status");
+let globalData = {};
 
-const kelasModal = document.getElementById("kelasModal");
-const statusModal = document.getElementById("statusModal");
-const confirmModal = document.getElementById("confirmModal");
-const alreadyModal = document.getElementById("alreadyModal");
-const loadingModal = document.getElementById("loadingModal");
-
-const confirmSend = document.getElementById("confirmSend");
-const cancelSend = document.getElementById("cancelSend");
-
-let isSubmitting = false;
-
-// --- Cek akses user dengan loading ---
-function cekAksesUser() {
-  const sudahKirim = localStorage.getItem("sudahKirimPendataan");
-  const namaUser = localStorage.getItem("namaUser") || "";
-
-  if (sudahKirim === "true" && namaUser) {
-    loadingModal.style.display = "flex"; // Tampilkan loading saat cek Sheet
-    fetch(`${SHEET_URL}?checkName=${encodeURIComponent(namaUser)}`)
-      .then(res => res.json())
-      .then(data => {
-        loadingModal.style.display = "none";
-        if (data.exists) {
-          alreadyModal.style.display = "flex";
-        } else {
-          localStorage.removeItem("sudahKirimPendataan");
-          localStorage.removeItem("namaUser");
-          formContainer.style.display = "block";
-        }
-      })
-      .catch(() => {
-        loadingModal.style.display = "none";
-        alert("Terjadi kesalahan saat memeriksa data. Silakan refresh halaman.");
-      });
-  } else {
-    formContainer.style.display = "block";
-  }
+// SHOW / HIDE LOADING
+function showLoading(show) {
+    const load = document.getElementById("loading");
+    if (show) load.classList.remove("hidden");
+    else load.classList.add("hidden");
 }
 
-cekAksesUser();
-
-// --- Popup Kelas ---
-kelasInput.addEventListener("click", () => kelasModal.style.display = "flex");
-kelasModal.querySelectorAll(".option-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    kelasInput.value = btn.dataset.value;
-    kelasModal.style.display = "none";
-  });
-});
-
-// --- Popup Status ---
-statusInput.addEventListener("click", () => statusModal.style.display = "flex");
-statusModal.querySelectorAll(".option-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    statusInput.value = btn.dataset.value;
-    statusModal.style.display = "none";
-  });
-});
-
-// --- Tutup modal jika klik luar ---
-window.onclick = e => {
-  [kelasModal, statusModal, confirmModal, loadingModal].forEach(modal => {
-    if(e.target === modal) modal.style.display = "none";
-  });
-};
-
-// --- Submit Form ---
-form.addEventListener("submit", e => {
-  e.preventDefault();
-  if(isSubmitting) return;
-  confirmModal.style.display = "flex";
-});
-
-confirmSend.addEventListener("click", () => {
-  confirmModal.style.display = "none";
-  isSubmitting = true;
-
-  loadingModal.style.display = "flex";
-  const namaUser = document.getElementById("nama").value.trim();
-
-  fetch(SHEET_URL, { method: "POST", body: new FormData(form) })
-    .then(() => {
-      localStorage.setItem("sudahKirimPendataan", "true");
-      localStorage.setItem("namaUser", namaUser);
-
-      formContainer.style.display = "none";
-      successMsg.style.display = "block";
-
-      setTimeout(() => {
-        loadingModal.style.display = "none";
-        successMsg.style.display = "none";
-        alreadyModal.style.display = "flex";
-      }, 2000);
-    })
-    .catch(() => {
-      loadingModal.style.display = "none";
-      alert("Terjadi kesalahan. Silakan coba lagi.");
+// POPUP LOTTIE
+function lottieAlert(title, msg, animURL) {
+    Swal.fire({
+        title: title,
+        html: `
+            <lottie-player 
+                src="${animURL}"
+                background="transparent"
+                speed="1"
+                style="width: 150px; height: 150px; margin:auto;"
+                autoplay>
+            </lottie-player>
+            <p style="margin-top:10px;">${msg}</p>
+        `,
+        showConfirmButton: true,
+        confirmButtonText: "OK",
+        width: 350,
     });
-});
+}
 
-cancelSend.addEventListener("click", () => confirmModal.style.display = "none");
+// CEK NIS
+function checkNIS() {
+    const nis = document.getElementById("nis").value;
+    if (!nis) {
+        return lottieAlert(
+            "NIS Kosong!",
+            "Masukkan NIS terlebih dahulu.",
+            "https://assets10.lottiefiles.com/packages/lf20_t24tpvcu.json"
+        );
+    }
+
+    showLoading(true);
+
+    fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify({ action:"checkNIS", nis })
+    })
+    .then(res => res.json())
+    .then(data => {
+        showLoading(false);
+
+        if (data.status === "valid") {
+            lottieAlert(
+                "Data Ditemukan!",
+                "Silakan lanjutkan ke langkah berikutnya.",
+                "https://assets2.lottiefiles.com/packages/lf20_jbrw3hcz.json"
+            );
+
+            globalData = data;
+            document.getElementById("step1").classList.add("hidden");
+            document.getElementById("step2").classList.remove("hidden");
+            document.getElementById("nama").innerText = data.nama;
+            document.getElementById("kelas").innerText = data.kelas;
+        } else if(data.status === "already"){
+            Swal.fire({
+                title: "NIS Sudah Submit!",
+                html: `
+                    <lottie-player 
+                        src="https://assets9.lottiefiles.com/packages/lf20_qp1q7mct.json"
+                        background="transparent"
+                        speed="1"
+                        style="width: 150px; height: 150px; margin:auto;"
+                        autoplay>
+                    </lottie-player>
+                    <p style="margin-top:10px;">Anda sudah mengirim data sebelumnya.<br>Untuk mengulang data, hubungi admin via WhatsApp.</p>
+                `,
+                showCancelButton: true,
+                confirmButtonText: "Hubungi Admin",
+                cancelButtonText: "Tutup",
+                width: 350
+            }).then(result => {
+                if(result.isConfirmed){
+                    window.open("https://wa.me/6281392375768", "_blank");
+                }
+            });
+        } else {
+            lottieAlert(
+                "NIS Tidak Terdaftar!",
+                "Periksa kembali NIS yang Anda masukkan.",
+                "https://assets9.lottiefiles.com/packages/lf20_qp1q7mct.json"
+            );
+        }
+    })
+    .catch(err => {
+        showLoading(false);
+        lottieAlert("Error!", "Terjadi kesalahan, coba lagi.", "https://assets9.lottiefiles.com/packages/lf20_qp1q7mct.json");
+    });
+}
+
+// STEP 2 → STEP 3
+function gotoStep3() {
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("step3").classList.remove("hidden");
+}
+
+// SUBMIT DATA
+function submitData(status) {
+
+    Swal.fire({
+        title: "Apakah Anda yakin?",
+        html: `
+            <lottie-player 
+                src="https://assets2.lottiefiles.com/packages/lf20_jbrw3hcz.json"
+                background="transparent"
+                speed="1"
+                style="width: 150px; height: 150px; margin:auto;"
+                autoplay>
+            </lottie-player>
+            <p style="margin-top:10px;">Anda memilih: <strong>${status}</strong></p>
+        `,
+        showCancelButton: true,
+        confirmButtonText: "Ya, Kirim!",
+        cancelButtonText: "Batal",
+        width: 350
+    }).then(result => {
+        if (result.isConfirmed) {
+            showLoading(true);
+
+            fetch(scriptURL, {
+                method: "POST",
+                body: JSON.stringify({
+                    action:"submitData",
+                    nis: document.getElementById("nis").value,
+                    nama: globalData.nama,
+                    kelas: globalData.kelas,
+                    mengikuti: status
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                showLoading(false);
+
+                if (data.status === "success") {
+                    confetti({ particleCount: 180, spread: 70, origin: { y: 0.6 } });
+                    Swal.fire({
+                        title: "Berhasil!",
+                        html: `
+                            <lottie-player 
+                                src="https://assets9.lottiefiles.com/packages/lf20_qp1q7mct.json"
+                                background="transparent"
+                                speed="1"
+                                style="width: 150px; height: 150px; margin:auto;"
+                                autoplay>
+                            </lottie-player>
+                            <p style="margin-top:10px;">Data Anda berhasil dikirim. Jika Ada Informasi Yang Masih Di tanyakan Silahkan Klik Hubungi Admin!</p>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: "Hubungi Admin",
+                        cancelButtonText: "Tutup",
+                        width: 350
+                    }).then(result => {
+                        if(result.isConfirmed){
+                            window.open("https://wa.me/6281392375768", "_blank");
+                        }
+                        confirmButtonText: "OK"
+                    });
+                    document.getElementById("step3").classList.add("hidden");
+                    document.getElementById("done").classList.remove("hidden");
+                } else if(data.status === "already"){
+                    Swal.fire({
+                        title: "Gagal!",
+                        html: `
+                            <lottie-player 
+                                src="https://assets9.lottiefiles.com/packages/lf20_qp1q7mct.json"
+                                background="transparent"
+                                speed="1"
+                                style="width: 150px; height: 150px; margin:auto;"
+                                autoplay>
+                            </lottie-player>
+                            <p style="margin-top:10px;">NIS ini sudah mengirim data sebelumnya.<br>Untuk Mengulang Data, hubungi Admin via WhatsApp.</p>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: "Hubungi Admin",
+                        cancelButtonText: "Tutup",
+                        width: 350
+                    }).then(result => {
+                        if(result.isConfirmed){
+                            window.open("https://wa.me/6281392375768", "_blank");
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                showLoading(false);
+                lottieAlert("Error!", "Gagal mengirim data.", "https://assets9.lottiefiles.com/packages/lf20_qp1q7mct.json");
+            });
+        }
+    });
+}
 </script>
 
 </body>
-</html>             
+</html>
