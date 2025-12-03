@@ -22,7 +22,7 @@ body {
     background: linear-gradient(135deg, #1e1f26, #3f3351, #864879);
     background-size: 400% 400%;
     animation: gradientMove 12s ease infinite;
-    padding: 40px;
+    padding: 20px;
     color: #fff;
 }
 
@@ -33,7 +33,8 @@ body {
 }
 
 .container {
-    max-width: 400px;
+    max-width: 450px;
+    width: 100%;
     margin: auto;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px);
@@ -48,22 +49,27 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+h2, h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
 input {
     width: 100%;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 14px;
+    border-radius: 10px;
     border: none;
-    margin-top: 8px;
+    margin-top: 10px;
     outline: none;
-    font-size: 15px;
-    background: rgba(255,255,255,0.85);
+    font-size: 16px;
+    background: rgba(255,255,255,0.9);
 }
 
 button {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     margin-top: 15px;
     cursor: pointer;
     font-size: 16px;
@@ -88,35 +94,38 @@ button:hover {
     margin-top:20px;
 }
 
-/* RESPONSIVE UNTUK HP */
+/* RESPONSIVE OPTIMAL UNTUK HP */
 @media screen and (max-width: 480px) {
     body {
-        padding: 20px;
+        padding: 15px;
     }
 
     .container {
-        max-width: 100%;
         padding: 20px;
+        border-radius: 12px;
     }
 
-    h2, h3 {
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
         font-size: 18px;
-        text-align: center;
     }
 
     input, button {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    #loading p {
-        font-size: 14px;
+        font-size: 16px;
+        padding: 14px;
     }
 
     #step3 button:first-child,
     #step3 button:last-child {
-        font-size: 14px;
-        padding: 10px;
+        font-size: 16px;
+        padding: 14px;
+    }
+
+    #loading p {
+        font-size: 15px;
     }
 }
 </style>
@@ -124,7 +133,7 @@ button:hover {
 <body>
 
 <div class="container">
-    <h2 style="text-align:center;">Pendataan Promnight</h2>
+    <h2>Pendataan Promnight</h2>
 
     <!-- STEP 1 -->
     <div id="step1">
@@ -168,18 +177,17 @@ button:hover {
 </div>
 
 <script>
+// === SCRIPT ASLI TANPA PERUBAHAN ===
 const scriptURL = "https://script.google.com/macros/s/AKfycbzIYOzT9zwcDsvpkH5z6VgUKXDrFrP3Cqf2XHXYN98JAJ_buIUPYBYH-QYeDrR-quCWFw/exec";
 
 let globalData = {};
 
-// SHOW / HIDE LOADING
 function showLoading(show) {
     const load = document.getElementById("loading");
     if (show) load.classList.remove("hidden");
     else load.classList.add("hidden");
 }
 
-// POPUP LOTTIE
 function lottieAlert(title, msg, animURL) {
     Swal.fire({
         title: title,
@@ -199,7 +207,6 @@ function lottieAlert(title, msg, animURL) {
     });
 }
 
-// CEK NIS
 function checkNIS() {
     const nis = document.getElementById("nis").value;
     if (!nis) {
@@ -268,15 +275,12 @@ function checkNIS() {
     });
 }
 
-// STEP 2 → STEP 3
 function gotoStep3() {
     document.getElementById("step2").classList.add("hidden");
     document.getElementById("step3").classList.remove("hidden");
 }
 
-// SUBMIT DATA
 function submitData(status) {
-
     Swal.fire({
         title: "Apakah Anda yakin?",
         html: `
