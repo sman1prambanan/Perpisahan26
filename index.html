@@ -1,8 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
 <head>
 <meta charset="UTF-8">
 <title>Pendataan Promnight</title>
+
+<!-- VIEWPORT UNTUK HP -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- GOOGLE FONT -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -17,6 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
+/* BODY FULL SCREEN */
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #1e1f26, #3f3351, #864879);
@@ -37,6 +39,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
+/* KONTAINER */
 .container {
     width: 100%;
     max-width: 450px;
@@ -48,6 +51,8 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
+    max-height: 95vh; /* Agar bisa scroll jika konten terlalu tinggi */
+    overflow-y: auto;
 }
 
 @keyframes fadeIn {
@@ -100,11 +105,11 @@ button:hover {
     margin-top:20px;
 }
 
-/* RESPONSIVE OPTIMAL UNTUK HP - PERBESAR & FULL SCREEN */
+/* RESPONSIVE HP FULL SCREEN */
 @media screen and (max-width: 480px) {
     body {
-        padding: 10px;
         font-size: 18px;
+        padding: 0;
     }
 
     .container {
@@ -112,13 +117,8 @@ button:hover {
         border-radius: 15px;
     }
 
-    h2 {
-        font-size: 26px;
-    }
-
-    h3 {
-        font-size: 22px;
-    }
+    h2 { font-size: 26px; }
+    h3 { font-size: 22px; }
 
     input {
         font-size: 18px;
