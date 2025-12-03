@@ -323,7 +323,7 @@ function submitData(status) {
                                 style="width: 150px; height: 150px; margin:auto;"
                                 autoplay>
                             </lottie-player>
-                            <p style="margin-top:10px;">Data Anda berhasil dikirim. Jika Ada Informasi Yang Masih Di tanyakan Silahkan Klik Hubungi Admin!</p>
+                            <p style="margin-top:10px;">Data Anda berhasil dikirim. Jika ada pertanyaan silahkan klik Hubungi Admin!</p>
                         `,
                         showCancelButton: true,
                         confirmButtonText: "Hubungi Admin",
@@ -333,7 +333,6 @@ function submitData(status) {
                         if(result.isConfirmed){
                             window.open("https://wa.me/6281392375768", "_blank");
                         }
-                        confirmButtonText: "OK"
                     });
                     document.getElementById("step3").classList.add("hidden");
                     document.getElementById("done").classList.remove("hidden");
